@@ -85,6 +85,9 @@
       IonPage,
       IonTitle,
       IonToolbar
+    },
+    data(){
+      
     }
   });
 </script>

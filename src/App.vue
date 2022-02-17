@@ -13,6 +13,12 @@ export default defineComponent({
   components: {
     IonApp,
     IonRouterOutlet
+  },
+  mounted(){
+    const user = JSON.parse(window.localStorage.getItem('a22user'))
+    if(user!=null){
+      this.$router.replace('/home')
+    }
   }
 });
 </script>

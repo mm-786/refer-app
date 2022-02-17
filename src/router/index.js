@@ -8,7 +8,7 @@ import ProfilePage from '../views/ProfilePage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/login'
   },
   {
     path: '/home',
