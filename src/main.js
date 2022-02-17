@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
-
+import SimpleVueValidation from 'simple-vue-validator';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
@@ -24,7 +24,7 @@ import '@ionic/vue/css/display.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  
+  .use(SimpleVueValidation)
 router.isReady().then(() => {
   app.mount('#app');
 });

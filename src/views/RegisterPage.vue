@@ -24,19 +24,24 @@
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Name</ion-label>
                     <ion-input v-model="form.name"></ion-input>
+                    <div class="err">{{ validation.firstError('form.name') }}</div>
                 </ion-item>
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Username</ion-label>
                     <ion-input v-model="form.username"></ion-input>
+                    <div class="err">{{ validation.firstError('form.username') }}</div>
+
                 </ion-item>
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Mobile</ion-label>
                     <ion-input v-model="form.mobile" type="text" inputmode="numeric"></ion-input>
+                    <div class="err">{{ validation.firstError('form.mobile') }}</div>
+
                 </ion-item>
                 <ion-item>
-                    <div class="">{{ validation.firstError('form.email') }}</div>
                     <ion-label style="font-size: small" position="floating">E-mail</ion-label>
                     <ion-input v-model="form.email"></ion-input>
+                    <div class="err">{{ validation.firstError('form.email') }}</div>
                 </ion-item>
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Gender</ion-label>
@@ -44,14 +49,17 @@
                         <ion-select-option value="male">Male</ion-select-option>
                         <ion-select-option value="female">Female</ion-select-option>
                     </ion-select>
+                    <div class="err">{{ validation.firstError('form.gender') }}</div>
                 </ion-item>
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Date Of Birth</ion-label>
                     <ion-input v-model="form.dob" type="date"></ion-input>
+                    <div class="err">{{ validation.firstError('form.dob') }}</div>
                 </ion-item>
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Password</ion-label>
                     <ion-input v-model="form.t_password" type="password"></ion-input>
+                    <div class="err">{{ validation.firstError('form.t_password') }}</div>
                     <i class="fa fa-eye" style="
               position: absolute;
               right: 0px;
@@ -63,6 +71,7 @@
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Confirm Password</ion-label>
                     <ion-input v-model="form.password" type="password"></ion-input>
+                    <div class="err">{{ validation.firstError('form.password') }}</div>
                     <i class="fa fa-eye" style="
               position: absolute;
               right: 0px;
@@ -75,6 +84,7 @@
                 <ion-item>
                     <ion-label style="font-size: small" position="floating">Refer Code</ion-label>
                     <ion-input v-model="form.refer_by"></ion-input>
+                    <div class="err">{{ validation.firstError('form.refer_by') }}</div>
                 </ion-item>
 
                 <ion-item lines="none">

@@ -7,8 +7,6 @@
 <script lang="js">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
- import SimpleVueValidation from 'simple-vue-validator';
-    const Validator = SimpleVueValidation.Validator;
     
 export default defineComponent({
   name: 'App',
@@ -27,5 +25,9 @@ export default defineComponent({
   }
   ion-lable{
     color: black;
+  }
+  .err{
+    color: red;
+    font-size: x-small;
   }
 </style>
