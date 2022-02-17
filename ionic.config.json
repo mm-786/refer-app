@@ -1,0 +1,7 @@
+{
+  "name": "A22-refer-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
