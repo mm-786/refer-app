@@ -18,7 +18,7 @@
                 </ion-toolbar>
             </ion-header>
             <div style="display: flex; justify-content: center; margin-top: 10px"></div>
-            <h1 style="text-align: center">Username</h1>
+            <h1 style="text-align: center">{{userData.username}}</h1>
             <ion-card style="border-radius: 10px; box-shadow: none; background-color: rgba(220, 220, 220,0.3);">
                 <ion-grid>
                     <ion-row>
@@ -26,7 +26,7 @@
                             NAME
                         </ion-col>
                         <ion-col class="data">
-                            Murtaza
+                            {{userData.name}}
                         </ion-col>
                     </ion-row>
                     <ion-row>
@@ -34,7 +34,7 @@
                             gender
                         </ion-col>
                         <ion-col class="data">
-                            Murtaza
+                            {{userData.gender}}
                         </ion-col>
                     </ion-row>
                     <ion-row>
@@ -42,7 +42,7 @@
                             Date of birth
                         </ion-col>
                         <ion-col class="data">
-                            Murtaza
+                            {{userData.dob}}
                         </ion-col>
                     </ion-row>
                     <ion-row>
@@ -50,7 +50,7 @@
                             Mobile
                         </ion-col>
                         <ion-col class="data">
-                            Murtaza
+                            {{userData.mobile}}
                         </ion-col>
                     </ion-row>
                     <ion-row>
@@ -58,7 +58,7 @@
                             E-mail
                         </ion-col>
                         <ion-col class="data">
-                            Murtaza
+                            {{userData.email}}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -68,7 +68,7 @@
                 <div style="text-align:center;  margin:30px; border: 1px solid gainsboro; padding: 20px; ">
                     <h5>Your Credits</h5>
                     <div class="inner-container-shade">
-                        <h1>2000</h1>
+                        <h1>{{userData.credit}}</h1>
 
                         <ion-input type="text" style="--background:rgb(190, 190, 190); margin: 10px 0px;"
                             inputmode="numeric"></ion-input>
@@ -83,7 +83,6 @@
 
 <script lang="js">
     import { IonContent, IonInput, IonPage } from "@ionic/vue";
-    import { eye } from "ionicons/icons";
     export default {
         components: {
             IonContent,
@@ -92,11 +91,14 @@
 
             IonInput,
         },
-        setup() {
+        data() {
             return {
-                eye,
-            };
+                userData: {}
+            }
         },
+        mounted() {
+            this.userData = JSON.parse(window.localStorage.getItem('a22user'))
+        }
     };
 </script>
 

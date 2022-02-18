@@ -32,8 +32,12 @@
           <ion-label style="font-size: small" position="floating"
             >Username</ion-label
           >
-          <ion-input v-model="form.username"></ion-input>
+          <ion-input
+            v-model="form.username"
+            @change="checkUsername(form.username)"
+          ></ion-input>
           <div class="err">{{ validation.firstError("form.username") }}</div>
+          <div class="err">{{ usernameErr }}</div>
         </ion-item>
         <ion-item>
           <ion-label style="font-size: small" position="floating"
@@ -43,15 +47,19 @@
             v-model="form.mobile"
             type="text"
             inputmode="numeric"
+            maxlength="10"
+            @change="checkMobile(form.mobile)"
           ></ion-input>
           <div class="err">{{ validation.firstError("form.mobile") }}</div>
+          <div class="err">{{ mobileErr }}</div>
         </ion-item>
         <ion-item>
           <ion-label style="font-size: small" position="floating"
             >E-mail</ion-label
           >
-          <ion-input v-model="form.email"></ion-input>
+          <ion-input v-model="form.email" @change="checkEmail(form.email)"></ion-input>
           <div class="err">{{ validation.firstError("form.email") }}</div>
+          <div class="err">{{ emailErr }}</div>
         </ion-item>
         <ion-item>
           <ion-label style="font-size: small" position="floating"
@@ -67,7 +75,7 @@
           <ion-label style="font-size: small" position="floating"
             >Date Of Birth</ion-label
           >
-          <ion-input v-model="form.dob" type="date"></ion-input>
+          <ion-input v-model="form.dob" :max="maxDate"  type="date"></ion-input>
           <div class="err">{{ validation.firstError("form.dob") }}</div>
         </ion-item>
         <ion-item>
@@ -174,6 +182,7 @@
     import { IonContent, IonItem, IonInput, IonPage, IonSelect, IonSelectOption } from "@ionic/vue";
     import axios from 'axios';
     import SimpleVueValidation from 'simple-vue-validator';
+    import md5 from "md5"; 
     const Validator = SimpleVueValidation.Validator;
 
 
@@ -192,7 +201,24 @@
                 },
                 shwPass1:false,
                 shwPass2:false,
+                emailErr:"",
+                usernameErr:"",
+                mobileErr:"",
+                maxDate:''
             }
+        },
+        mounted(){
+          const date = new Date();
+          let day = (date.getDate()-1).toString();
+          let month = (date.getMonth()+1).toString();
+          const year = date.getFullYear()
+          if(day.length==1){
+            day='0'+day
+          }
+          if(month.length==1){
+            month='0'+month
+          }
+          this.maxDate = year.toString() + "-" + month.toString() + "-" + day.toString();
         },
         validators: {
             'form.name': function (value) {
@@ -226,25 +252,54 @@
         methods: {
             async submit() {
                 const valid = await this.$validate();
-                if(valid){
+                if(valid && this.usernameErr=="" && this.mobileErr=="" && this.emailErr==""){
+                  this.form.password = md5(this.form.password)
+                  this.form.t_password = md5(this.form.t_password)
                 var config = {
                     method: 'post',
                     url: 'https://ra22.deta.dev/user/register',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: this.form
-                };
-
+                    headers: {'Content-Type': 'application/json'},data: this.form};
                 axios(config)
-                    .then(function (response) {
-                        console.log(response);
-                        this.$router.replace('/login')
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    .then(()=> {
+                       this.$router.push('/login')
+                        })
                 }
+            },
+            checkEmail(x){
+              if(this.validation.firstError("form.email")==null){
+              axios.get('https://ra22.deta.dev/user/email-available/'+x).then(d=>{
+                  if(!d.data.result){
+                    this.emailErr = "Email is Already Register" 
+                 }
+                 else{
+                   this.emailErr =""
+                 }
+              })
+              }
+            },
+            checkMobile(x){
+              if(this.validation.firstError("form.mobile")==null){
+              axios.get('https://ra22.deta.dev/user/mobile-available/'+x).then(d=>{
+                 if(!d.data.result){
+                    this.mobileErr ="Mobile is Already Register" 
+                 }
+                 else{
+                   this.mobileErr=""
+                 }
+              })
+              }
+            },
+            checkUsername(x){
+              if(this.validation.firstError("form.username")==null){
+              axios.get('https://ra22.deta.dev/user/username-available/'+x).then(d=>{
+                   if(!d.data.result){
+                    this.usernameErr ="Username is Already Register" 
+                 }
+                 else{
+                   this.usernameErr=""
+                 }
+              })
+              }
             },
         }
     };

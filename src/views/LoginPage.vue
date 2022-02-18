@@ -86,6 +86,7 @@
 <script lang="js">
   import {IonContent,IonPage,  IonItem, IonInput } from '@ionic/vue';
    import axios from 'axios';
+   import md5 from "md5";
     import SimpleVueValidation from 'simple-vue-validator';
     const Validator = SimpleVueValidation.Validator;
 
@@ -119,9 +120,11 @@ methods:{
   async login(){
      const valid = await this.$validate();
                 if(valid){
+                  this.form.password = md5(this.form.password)
                   axios.post('https://ra22.deta.dev/user/login',this.form).then(d=>{
                     console.log(d.data);
                     window.localStorage.setItem('a22user',JSON.stringify(d.data))
+                    this.$router.replace('/home')
                   }).catch(()=>{
                       this.err="invalid Credentials"
                   })
