@@ -8,13 +8,20 @@
             <i class="fa fa-question-circle" aria-hidden="true"></i>
           </ion-button>
         </ion-buttons>
-        <ion-title style="--color:white; margin-top: 25px; font-size: x-large; letter-spacing: 2px; height: 60px;"> {{wish}}, <br><span style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}</span></ion-title>
+        <ion-title style="--color:white; margin-top: 25px; font-size: large; letter-spacing: 2px; height: 60px;">
+          {{wish}}, <br><span class="text" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}} </span>
+        </ion-title>
+        <div slot="end">
+          <img src="../../public/assets/wtxtlogo.svg" width="100"
+            style="margin-top: 25px; float: right; margin-right: 15px; opacity: 0.5;" />
+        </div>
       </ion-toolbar>
     </ion-header>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 10px;">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 20px;">
       <ion-fab-button style="--background:black;">
-        <i class="fa fa-plus-circle" style="font-size: xx-large;" aria-hidden="true"></i>
+        <img src="../../public/assets/white.svg" width="30" />
+        <!-- <i class="fa fa-plus-circle" style="font-size: xx-large;" aria-hidden="true"></i> -->
       </ion-fab-button>
       <ion-fab-list side="top">
         <ion-fab-button style="--background:rgb(245, 154, 154);" @click="logout">
@@ -33,7 +40,7 @@
     <ion-content :fullscreen="true" style="--background: black; --color:white;">
       <ion-header collapse="condense">
         <ion-toolbar>
-          
+
         </ion-toolbar>
       </ion-header>
 
@@ -41,15 +48,23 @@
         <div slot="top">
           <label>Your Credits</label>
           <div class="inner-container-shade">
-            <h1>{{userData.credit}}</h1>
+            <strong class="text" style="font-size: 45px;">{{userData.credit}}</strong>
           </div>
         </div>
         <hr style="background-color: gainsboro;">
         <div>
-          <label>Offers</label>
-          <div class="offer-container">
-              <h1>Refer your friend and get 500 credits more to your account :)</h1>
-          </div>
+          <!-- <label>Offers</label> -->
+          <ion-slides :options="slideOpts">
+            <ion-slide class="offer-container">
+              <h1>Sign Up and get credit :)</h1>
+            </ion-slide>
+            <ion-slide class="offer-container">
+              <h1>Refer your friend and get 500 credits:)</h1>
+            </ion-slide>
+            <ion-slide class="offer-container">
+              <h1>Earn more credit :)</h1>
+            </ion-slide>
+          </ion-slides>
         </div>
         <hr style="background-color: gainsboro;">
         <div>
@@ -59,11 +74,12 @@
             style="background-color: rgba(0, 0, 0,0.6); border-radius: 20px 5px 20px 5px; margin-top: 10px; padding: 0px 20px; justify-content: space-between; display: flex;">
             <h4 style="color: white;">{{userData.key}}</h4>
 
-            <h4 @click="copy()" style="background-color: white; padding: 8px; border-radius: 50px;" class="fa fa-clipboard"
-              aria-hidden="true"></h4>
+            <h4 @click="copy()" style="background-color: white; padding: 8px; border-radius: 50px;"
+              class="fa fa-clipboard" aria-hidden="true"></h4>
 
           </div>
-          <div class="inner-container">
+
+          <div class="inner-container" style="max-height: 100px; overflow: scroll;">
             <ol>
               <li v-for="i in userData.refer_to" :key="i">{{i}}</li>
             </ol>
@@ -75,9 +91,10 @@
 </template>
 
 <script lang="js">
-  import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+  import { IonContent, IonHeader, IonPage, IonSlides, IonSlide, IonTitle, IonToolbar, IonFab, IonFabButton, IonFabList } from '@ionic/vue';
   import { defineComponent } from 'vue';
 
+  // import { Clipboard } from '@ionic-native/clipboard';
   export default defineComponent({
     name: 'HomePage',
     components: {
@@ -85,36 +102,41 @@
       IonHeader,
       IonPage,
       IonTitle,
-      IonToolbar
+      IonToolbar,
+      IonFab, IonFabButton, IonFabList,
+      IonSlides, IonSlide
     },
     data() {
       return {
         userData: {},
-        wish:""
+        wish: "",
+        slideOpts: {
+          autoplay: true
+        }
       }
     },
-    methods:{
-      logout(){
+    methods: {
+      logout() {
         window.localStorage.clear();
         this.$router.replace('/login')
       },
-      copy(){
+      copy() {
         navigator.clipboard.writeText(this.userData.key);
       }
     },
-    mounted(){
-       const day = new Date();
-        const hr = day.getHours();
-        if (hr >= 0 && hr < 12) {
-            this.wish="Good Morning!"
-        } else if (hr == 12) {
-            this.wish="Good Noon!"
-        } else if (hr >= 12 && hr <= 17) {
-            this.wish="Good Afternoon!"
-        } else {
-            this.wish="Good Evening!"
-        }
-    this.userData = JSON.parse(window.localStorage.getItem('a22user'))
+    async mounted() {
+      const day = new Date();
+      const hr = day.getHours();
+      if (hr >= 0 && hr < 12) {
+        this.wish = "Good Morning!"
+      } else if (hr == 12) {
+        this.wish = "Good Noon!"
+      } else if (hr >= 12 && hr <= 15) {
+        this.wish = "Good Afternoon!"
+      } else {
+        this.wish = "Good Evening!"
+      }
+      this.userData = JSON.parse(window.localStorage.getItem('a22user'))
 
     }
   });
@@ -123,17 +145,17 @@
 <style scoped>
   .container {
     background-color: white;
-    height: max-content;
-    padding: 15px;
+    height: 100%;
+    padding: 25px;
     color: black;
     text-align: center;
     padding-top: 20px;
     border-radius: 30px 30px 0px 0px;
-    margin: 0px 10px;
+    margin: 0px 20px;
   }
 
   .container label {
-    font-size: large;
+    font-size: 25px;
     color: black;
     text-align: center;
   }
@@ -143,7 +165,7 @@
     padding: 15px;
     margin-top: 10px;
     margin-bottom: 25px;
-    border-radius: 25px;
+    border-radius: 25px 10px;
   }
 
   .inner-container {
@@ -158,6 +180,7 @@
     height: 250px;
     overflow: scroll;
     text-align: justify;
+    vertical-align: middle;
     word-spacing: 1px;
     margin-top: 10px;
     margin-bottom: 25px;

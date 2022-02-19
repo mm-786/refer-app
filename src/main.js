@@ -21,10 +21,13 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 
+
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(SimpleVueValidation)
+  
 router.isReady().then(() => {
   app.mount('#app');
 });

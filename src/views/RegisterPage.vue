@@ -1,15 +1,6 @@
 <template>
   <ion-page>
-    <ion-header class="ion-no-border" :translucent="true">
-      <ion-toolbar style="background-color: white; box-shadow: none">
-        <ion-buttons slot="start">
-          <ion-button @click="$router.go(-1)">
-            <i class="fa fa-caret-left" aria-hidden="true"></i>
-          </ion-button>
-        </ion-buttons>
-        <ion-title> Register </ion-title>
-      </ion-toolbar>
-    </ion-header>
+
 
     <ion-content>
       <ion-header collapse="condense">
@@ -17,19 +8,23 @@
           <ion-title size="large">{{ $route.params.id }}</ion-title>
         </ion-toolbar>
       </ion-header>
+      <div style="justify-content: space-around; display: flex; margin-top: 15px;">
+      <img src="../../public/assets/btxtlogo.svg" width="120" style=" float: right; margin-right: 15px;"/>
+     </div>
+     <h1 class="text" style="color:black; text-transform: uppercase; margin-left: 25px;">Register</h1>
       <div
         style="display: flex; justify-content: center; margin-top: 10px"
       ></div>
-      <div style="margin: 30px; margin-top: 50px">
+      <div style="margin: 30px; ">
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Name</ion-label
           >
           <ion-input v-model="form.name"></ion-input>
           <div class="err">{{ validation.firstError("form.name") }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Username</ion-label
           >
           <ion-input
@@ -40,7 +35,7 @@
           <div class="err">{{ usernameErr }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Mobile</ion-label
           >
           <ion-input
@@ -54,7 +49,7 @@
           <div class="err">{{ mobileErr }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >E-mail</ion-label
           >
           <ion-input v-model="form.email" @change="checkEmail(form.email)"></ion-input>
@@ -62,7 +57,7 @@
           <div class="err">{{ emailErr }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Gender</ion-label
           >
           <ion-select v-model="form.gender">
@@ -72,14 +67,14 @@
           <div class="err">{{ validation.firstError("form.gender") }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Date Of Birth</ion-label
           >
           <ion-input v-model="form.dob" :max="maxDate"  type="date"></ion-input>
           <div class="err">{{ validation.firstError("form.dob") }}</div>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Password</ion-label
           >
           <ion-input
@@ -100,7 +95,7 @@
           ></i>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Confirm Password</ion-label
           >
           <ion-input
@@ -122,7 +117,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color:black; " position="floating"
             >Refer Code</ion-label
           >
           <ion-input v-model="form.refer_by"></ion-input>
@@ -179,7 +174,7 @@
 </template>
 
 <script lang="js">
-    import { IonContent, IonItem, IonInput, IonPage, IonSelect, IonSelectOption } from "@ionic/vue";
+    import { IonContent, IonItem, IonInput, IonPage, IonSelect, IonSelectOption,IonButton } from "@ionic/vue";
     import axios from 'axios';
     import SimpleVueValidation from 'simple-vue-validator';
     import md5 from "md5"; 
@@ -191,6 +186,7 @@
             IonContent,
             IonSelect, IonSelectOption,
             IonPage,
+            IonButton,
             IonItem,
             IonInput,
         },
@@ -253,8 +249,8 @@
             async submit() {
                 const valid = await this.$validate();
                 if(valid && this.usernameErr=="" && this.mobileErr=="" && this.emailErr==""){
-                  this.form.password = md5(this.form.password)
-                  this.form.t_password = md5(this.form.t_password)
+                  this.form.password = md5(this.form.password.toString())
+                  this.form.t_password = md5(this.form.t_password.toString())
                 var config = {
                     method: 'post',
                     url: 'https://ra22.deta.dev/user/register',
@@ -306,11 +302,16 @@
 </script>
 
 <style>
+
+
+
+
 ion-input {
   text-align: center;
 
   color: black;
 }
+
 
 ion-item {
   --highlight-color-focused: black;

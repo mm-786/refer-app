@@ -4,10 +4,18 @@
       <ion-toolbar style="background-color: white; box-shadow: none">
         <ion-buttons slot="start">
           <ion-button @click="$router.go(-1)">
-            <i class="fa fa-caret-left" aria-hidden="true"></i>
+            <i
+              class="fa fa-times"
+              style="color: black; font-size: medium"
+              aria-hidden="true"
+            ></i>
           </ion-button>
         </ion-buttons>
         <ion-title> Change Password </ion-title>
+        <div slot="end">
+                    <img src="../../public/assets/black.svg" width="40"
+                      style="float: right; margin-right: 15px; opacity: 0.5;" />
+                  </div>
       </ion-toolbar>
     </ion-header>
 
@@ -91,7 +99,7 @@
           @click="submit"
           style="width: 100%; --background: black; margin-top: 30px"
         >
-        change Password
+          change Password
         </ion-button>
       </div>
     </ion-content>
@@ -99,7 +107,7 @@
 </template>
 
 <script lang="js">
-    import { IonContent, IonItem, IonInput, IonPage} from "@ionic/vue";
+    import { IonContent, IonItem, IonInput, IonPage,IonButton,IonLabel} from "@ionic/vue";
     import axios from 'axios';
     import SimpleVueValidation from 'simple-vue-validator';
     import md5 from "md5"; 
@@ -111,6 +119,8 @@
             IonContent,
             IonPage,
             IonItem,
+            IonLabel,
+            IonButton,
             IonInput,
         },
         data() {
@@ -149,6 +159,9 @@
                   if(valid){
                       this.form.password = md5(this.form.password)
                 axios.put('https://ra22.deta.dev/change-password/'+this.user.key, this.form).then(()=>{
+                  axios.get('https://ra22.deta.dev/user/'+this.user.key).then(d=>{
+                           window.localStorage.setItem('a22user',JSON.stringify(d.data))
+      })
                     this.$router.replace('/home')
                 })
                   }

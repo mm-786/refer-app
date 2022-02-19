@@ -19,6 +19,13 @@ export default defineComponent({
     if(user!=null){
       axios.get('https://ra22.deta.dev/user/'+user.key).then(d=>{
         window.localStorage.setItem('a22user',JSON.stringify(d.data))
+        if(d.data.password != user.password){
+          window.localStorage.clear();
+          this.$router.replace('/login')
+        }
+      })
+      axios.get('https://ra22.deta.dev/credit').then(d=>{
+        window.localStorage.setItem('limit',d.data.w_limit)
       })
       this.$router.replace('/home')
     }
@@ -26,6 +33,11 @@ export default defineComponent({
 });
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
+.text{
+  font-family: 'Shizuru', cursive;
+}
+
   ion-input{
     color: black;
   }
