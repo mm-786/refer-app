@@ -5,14 +5,24 @@
 </template>
 
 <script lang="js">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { IonApp, IonRouterOutlet,useBackButton, useIonRouter } from '@ionic/vue';
+import { Plugins } from '@capacitor/core';
 import { defineComponent } from 'vue';
 import axios from "axios";
+const { App } = Plugins;
 export default defineComponent({
   name: 'App',
   components: {
     IonApp,
     IonRouterOutlet
+  },
+  setup() {
+    const ionRouter = useIonRouter();
+    useBackButton(-1, () => {
+      if (!ionRouter.canGoBack()) {
+        App.exitApp();
+      }
+    });
   },
   mounted(){
     const user = JSON.parse(window.localStorage.getItem('a22user'))
@@ -24,11 +34,11 @@ export default defineComponent({
           this.$router.replace('/login')
         }
       })
-      axios.get('https://ra22.deta.dev/credit').then(d=>{
-        window.localStorage.setItem('limit',d.data.w_limit)
-      })
       this.$router.replace('/home')
     }
+       axios.get('https://ra22.deta.dev/credit').then(d=>{
+        window.localStorage.setItem('limit',d.data.w_limit)
+      })
   }
 });
 </script>

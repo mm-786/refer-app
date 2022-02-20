@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "A22-refer-app",
+	"appId": "ml.mundrawala.anticks",
+	"appName": "Anticks",
 	"webDir": "dist",
 	"bundledWebRuntime": false
 }

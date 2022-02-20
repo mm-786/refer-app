@@ -30,7 +30,7 @@
       ></div>
       <div style="margin: 30px; margin-top: 50px">
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color: black;" position="floating"
             >Old Password</ion-label
           >
           <ion-input
@@ -52,7 +52,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color: black;" position="floating"
             >Password</ion-label
           >
           <ion-input
@@ -73,7 +73,7 @@
           ></i>
         </ion-item>
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color: black;" position="floating"
             >Confirm Password</ion-label
           >
           <ion-input
@@ -95,11 +95,20 @@
         </ion-item>
 
         <ion-button
+          v-if="!load"
           shape="round"
           @click="submit"
           style="width: 100%; --background: black; margin-top: 30px"
         >
           change Password
+        </ion-button>
+         <ion-button
+         v-if="load"
+         disabled
+          shape="round"
+          style="width: 100%; --background: black; margin-top: 30px"
+        >
+          Loading...
         </ion-button>
       </div>
     </ion-content>
@@ -130,6 +139,7 @@
                     t_password:'',
                     password:''
                 },
+                load:false,
                 user:'',
                 shwPass1:false,
                 shwPass2:false,
@@ -150,19 +160,21 @@
         },
         mounted(){ 
             const t = window.localStorage.getItem('a22user')
-            console.log(t);
             this.user=JSON.parse(t) 
         },
         methods: {
             async submit(){
                   const valid = await this.$validate();
                   if(valid){
+                    this.load=true;
                       this.form.password = md5(this.form.password)
                 axios.put('https://ra22.deta.dev/change-password/'+this.user.key, this.form).then(()=>{
                   axios.get('https://ra22.deta.dev/user/'+this.user.key).then(d=>{
-                           window.localStorage.setItem('a22user',JSON.stringify(d.data))
-      })
+                           window.localStorage.setItem('a22user',JSON.stringify(d.data))})
+                           this.load=false;
                     this.$router.replace('/home')
+                }).catch(()=>{
+                  this.load=false;
                 })
                   }
             }

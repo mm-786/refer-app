@@ -10,8 +10,8 @@
                 <ion-title> Your Profile </ion-title>
                 <div slot="end">
                     <img src="../../public/assets/black.svg" width="40"
-                      style="float: right; margin-right: 15px; opacity: 0.5;" />
-                  </div>
+                        style="float: right; margin-right: 15px; opacity: 0.5;" />
+                </div>
             </ion-toolbar>
         </ion-header>
 
@@ -22,9 +22,74 @@
                 </ion-toolbar>
             </ion-header>
             <div style="display: flex; justify-content: center; margin-top: 10px"></div>
-            
-            <ion-card style="border-radius: 10px; box-shadow: none; background-color: rgba(220, 220, 220,0.3);">
+
+            <div v-if="edit" style="margin: 30px">
+                <div>
+                <i @click="edit=false" style="font-size: xx-large; float: right;" class="fa fa-times"
+                                aria-hidden="true"></i>
+                            </div>
+                <ion-item>
+                    <ion-label style="font-size: small; color: black" position="floating">Mobile</ion-label>
+                    <ion-input v-model="form.mobile" type="text" inputmode="numeric" maxlength="10"
+                        @change="checkMobile(form.mobile)"></ion-input>
+                    <div class="err">{{ validation.firstError("form.mobile") }}</div>
+                    <div class="err">{{ mobileErr }}</div>
+                </ion-item>
+                <ion-item>
+                    <ion-label style="font-size: small; color: black" position="floating">E-mail</ion-label>
+                    <ion-input v-model="form.email" @change="checkEmail(form.email)"></ion-input>
+                    <div class="err">{{ validation.firstError("form.email") }}</div>
+                    <div class="err">{{ emailErr }}</div>
+                </ion-item>
+                <ion-item>
+                    <ion-label style="font-size: small; color: black">Gender</ion-label>
+                    <ion-radio-group v-model="form.gender" style="display: flex">
+                        <ion-item lines="none">
+                            <ion-label>Male</ion-label>
+                            <ion-radio style="--color-checked: black" slot="start" value="Male"></ion-radio>
+                        </ion-item>
+
+                        <ion-item lines="none">
+                            <ion-label>Female</ion-label>
+                            <ion-radio style="--color-checked: black" slot="start" value="Female"></ion-radio>
+                        </ion-item>
+                    </ion-radio-group>
+                    <div class="err">{{ validation.firstError("form.gender") }}</div>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label style="font-size: small; color: black" position="floating">Date Of Birth</ion-label>
+                    <ion-input v-model="form.dob" :max="maxDate" type="date"></ion-input>
+                    <div class="err">{{ validation.firstError("form.dob") }}</div>
+                </ion-item>
+
+
+
+
+
+                <ion-button v-if="!load" shape="round" @click="update"
+                    style="width: 100%; --background: black; margin-top: 30px">
+                    Update
+                </ion-button>
+                <ion-button v-if="load" disabled shape="round"
+                    style="width: 100%; --background: black; margin-top: 30px">
+                    Loading...
+                </ion-button>
+
+
+            </div>
+
+            <ion-card v-if="!edit" style="border-radius: 10px; box-shadow: none; background-color: rgba(220, 220, 220,0.3);">
                 <ion-grid>
+                    <ion-row>
+                        <ion-col size="11">
+
+                        </ion-col>
+                        <ion-col>
+                            <i @click="edit=true" style="font-size: xx-large; float: right;" class="fa fa-pencil-square"
+                                aria-hidden="true"></i>
+                        </ion-col>
+                    </ion-row>
                     <ion-row>
                         <ion-col size="4" class="heading">
                             NAME
@@ -78,9 +143,10 @@
             <div style="margin: 30px; margin-top: 40px">
 
                 <div style="text-align:center;  margin:30px; border: 1px solid gainsboro; padding: 20px; ">
-                    <h5>Your Credits</h5>
+                    <h5>Your <span class="text">SHIB</span></h5>
                     <div class="inner-container-shade">
-                        <strong class="text" style="font-size: xx-large; margin-bottom: 10px;">{{userData.credit}}</strong>
+                        <strong class="text"
+                            style="font-size: xx-large; margin-bottom: 10px;">{{userData.credit}}</strong>
 
                         <div v-if="userData.credit >= limit && userData.w_req==''">
                             <ion-input type="text" v-model="credit"
@@ -92,7 +158,7 @@
                                 request </ion-button>
                         </div>
                         <div v-else style="opacity: 0.5; margin-top: 10px; font-size: small;">
-                            You don't have enough ({{limit}}) credit to make withdraw request or You have already make
+                            You don't have enough ({{limit}}) SHIB to make withdraw request or You have already make
                             one request which one is not compeleted
                         </div>
                     </div>
@@ -103,7 +169,7 @@
 </template>
 
 <script lang="js">
-    import { IonContent, IonInput, IonPage,IonButton, IonGrid,IonRow,IonCol } from "@ionic/vue";
+    import { IonContent, IonInput, IonPage, IonButton, IonGrid, IonRow, IonCol, IonRadioGroup, IonRadio } from "@ionic/vue";
     import SimpleVueValidation from 'simple-vue-validator';
     const Validator = SimpleVueValidation.Validator;
     import axios from 'axios';
@@ -113,30 +179,108 @@
             IonContent,
             IonButton,
             IonPage,
-            IonGrid,IonRow,IonCol,
+            IonRadioGroup, IonRadio,
+            IonGrid, IonRow, IonCol,
             IonInput,
         },
         data() {
             return {
                 userData: {},
+                form: {},
                 limit: window.localStorage.getItem('limit'),
-                credit: ''
+                emailErr: "",
+                usernameErr: "",
+                mobileErr: "",
+                maxDate: '',
+                load: false,
+                edit: false
             }
         },
-        validators: {
-            credit: function (value) {
-                return Validator.value(value).required().greaterThanOrEqualTo(this.limit)
-            }
-        },
+
         mounted() {
+            const date = new Date();
+            let day = (date.getDate() - 1).toString();
+            let month = (date.getMonth() + 1).toString();
+            const year = date.getFullYear()
+            if (day.length == 1) {
+                day = '0' + day
+            }
+            if (month.length == 1) {
+                month = '0' + month
+            }
+            this.maxDate = year.toString() + "-" + month.toString() + "-" + day.toString();
             this.userData = JSON.parse(window.localStorage.getItem('a22user'));
             axios.get('https://ra22.deta.dev/user/' + this.userData.key).then(d => {
                 window.localStorage.setItem('a22user', JSON.stringify(d.data))
                 this.userData = d.data;
+                this.form = d.data;
             })
         },
+        validators: {
+            'form.dob': function (value) {
+                return Validator.value(value).required();
+            },
+            'form.gender': function (value) {
+                return Validator.value(value).required();
+            },
+            'form.email': function (value) {
+                return Validator.value(value).required().email();
+            },
+            'form.mobile': function (value) {
+                return Validator.value(value).required().length(10);
+            },
+        },
         methods: {
-           async makeReq() {
+            async update() {
+                const valid = await this.$validate();
+                if (valid && this.usernameErr == "" && this.mobileErr == "" && this.emailErr == "") {
+                    this.load = true;
+                    axios.put('https://ra22.deta.dev/user-update', this.form).then(d => {
+                       
+                        this.userData = d.data;
+                        this.form = d.data;
+                        this.edit=false;
+                        this.load = false;
+                    })
+                }
+            },
+            checkEmail(x) {
+                if (this.validation.firstError("form.email") == null) {
+                    axios.get('https://ra22.deta.dev/user/email-available/' + x).then(d => {
+                        if (!d.data.result) {
+                            this.emailErr = "Email is Already Register"
+                        }
+                        else {
+                            this.emailErr = ""
+                        }
+                    })
+                }
+            },
+            checkMobile(x) {
+                if (this.validation.firstError("form.mobile") == null) {
+                    axios.get('https://ra22.deta.dev/user/mobile-available/' + x).then(d => {
+                        if (!d.data.result) {
+                            this.mobileErr = "Mobile is Already Register"
+                        }
+                        else {
+                            this.mobileErr = ""
+                        }
+                    })
+                }
+            },
+            checkUsername(x) {
+                if (this.validation.firstError("form.username") == null) {
+                    axios.get('https://ra22.deta.dev/user/username-available/' + x).then(d => {
+                        if (!d.data.result) {
+                            this.usernameErr = "Username is Already Register"
+                        }
+                        else {
+                            this.usernameErr = ""
+                        }
+                    })
+                }
+            },
+            async makeReq() {
                 const valid = await this.$validate();
                 if (valid) {
                     const data = {
@@ -146,8 +290,8 @@
                         "mobile": this.userData.mobile,
                         "email": this.userData.email
                     }
-                    axios.post('https://ra22.deta.dev/req', data).then((d) => {
-                        console.log(d.data);
+                    axios.post('https://ra22.deta.dev/req', data).then(() => {
+                    
                         this.$router.replace('/home')
                     })
                 }
@@ -173,7 +317,7 @@
         padding: 20px;
         padding-left: 10px;
         border-radius: 5px;
-        background-color: rgba(220, 220, 220,0.3);
+        background-color: rgba(220, 220, 220, 0.3);
         margin: 5px;
         text-transform: uppercase;
         opacity: 0.8;
@@ -185,7 +329,7 @@
         padding-left: 10px;
         border-radius: 5px;
         margin: 5px;
-        background-color: rgba(220, 220, 220,0.3);
+        background-color: rgba(220, 220, 220, 0.3);
         text-transform: capitalize;
     }
 </style>

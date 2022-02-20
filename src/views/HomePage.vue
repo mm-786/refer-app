@@ -9,7 +9,8 @@
           </ion-button>
         </ion-buttons>
         <ion-title style="--color:white; margin-top: 25px; font-size: large; letter-spacing: 2px; height: 60px;">
-          {{wish}}, <br><span class="text" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}} </span>
+          {{wish}}, <br><span class="text" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}
+          </span>
         </ion-title>
         <div slot="end">
           <img src="../../public/assets/wtxtlogo.svg" width="100"
@@ -46,7 +47,7 @@
 
       <div class="container">
         <div slot="top">
-          <label>Your Credits</label>
+          <label>Your <span class="text">SHIB</span></label>
           <div class="inner-container-shade">
             <strong class="text" style="font-size: 45px;">{{userData.credit}}</strong>
           </div>
@@ -74,8 +75,8 @@
             style="background-color: rgba(0, 0, 0,0.6); border-radius: 20px 5px 20px 5px; margin-top: 10px; padding: 0px 20px; justify-content: space-between; display: flex;">
             <h4 style="color: white;">{{userData.key}}</h4>
 
-            <h4 @click="copy()" style="background-color: white; padding: 8px; border-radius: 50px;"
-              class="fa fa-clipboard" aria-hidden="true"></h4>
+            <h4 @click="copy(); share()" style="background-color: white; padding: 8px; border-radius: 50px;"
+              class="fa fa-share-alt" aria-hidden="true"></h4>
 
           </div>
 
@@ -93,6 +94,9 @@
 <script lang="js">
   import { IonContent, IonHeader, IonPage, IonSlides, IonSlide, IonTitle, IonToolbar, IonFab, IonFabButton, IonFabList } from '@ionic/vue';
   import { defineComponent } from 'vue';
+  import axios from 'axios';
+  import { Plugins } from '@capacitor/core';
+  const { Share } = Plugins;
 
   // import { Clipboard } from '@ionic-native/clipboard';
   export default defineComponent({
@@ -122,9 +126,17 @@
       },
       copy() {
         navigator.clipboard.writeText(this.userData.key);
+      },
+      async share() {
+        await Share.share({
+          title: 'Refer Anticks With Buddies',
+          text: 'Sign Up with my code '+ this.userData.key +". And get more credit",
+          url: 'https://google.com',
+          dialogTitle: 'Share with buddies',
+        });
       }
     },
-    async mounted() {
+    mounted() {
       const day = new Date();
       const hr = day.getHours();
       if (hr >= 0 && hr < 12) {
@@ -137,6 +149,10 @@
         this.wish = "Good Evening!"
       }
       this.userData = JSON.parse(window.localStorage.getItem('a22user'))
+
+      axios.get('https://ra22.deta.dev/credit').then(d=>{
+        window.localStorage.setItem('limit',d.data.w_limit)
+      })
 
     }
   });
