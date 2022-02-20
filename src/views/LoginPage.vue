@@ -10,7 +10,7 @@
      <div style="justify-content: space-around; display: flex; margin-top: 15px;">
       <img src="../../public/assets/btxtlogo.svg" width="120" style=" float: right; margin-right: 15px;"/>
      </div>
-     <h1 class="text" style="color:black; text-transform: capitalize; margin-left: 25px;">LOGIN</h1>
+     <h1 class="text" style="color:black; text-transform: capitalize; margin-left: 25px;">{{fp?'FORGET PASSWORD':'LOGIN'}}</h1>
       <div style="margin: 30px; " v-if="!fp">
         
         <h6 v-if="err" style="color:red; text-transform: capitalize; text-align: center;">{{err}}</h6>
@@ -42,12 +42,21 @@
 
         <a @click="fp=true" style="color: black; font-weight: bold; margin-top: 5px; float: right;">Forget Password?</a>
         <ion-button
+          v-if="!load"
           shape="round"
           @click="err=null; login();"
           style="width: 100%; --background: black; margin-top: 50px"
         >
           LOGIN
         </ion-button>
+        <ion-button
+      v-if="load"
+      disabled
+       shape="round"
+       style="width: 100%; --background: black; margin-top: 30px"
+     >
+       Loading...
+     </ion-button>
 
         <div style="text-align: center; margin: 25px">
           <hr style="background-color: rgb(161, 152, 152); height: 1px" />
@@ -74,18 +83,19 @@
           >
         </div>
       </div>
-      <div style="margin: 30px; margin-top: 120px" v-if="fp">
+      <div style="margin: 30px;" v-if="fp">
         <i class="fa fa-times" aria-hidden="true" style="float: right;" @click="fp=false"></i>
         <span style="text-align: center; color: green;">{{msg}}</span>
         <span style="text-align: center; color: red;">{{Err}}</span>
   
         <ion-item>
-          <ion-label style="font-size: small" position="floating"
+          <ion-label style="font-size: small; color: black;" position="floating"
             >Username</ion-label
           >
           <ion-input type="text" v-model="form.username"></ion-input>
         </ion-item>
         <ion-button
+        v-if="!load"
         :disabled="form.username==''"
         shape="round"
         @click="SendMail();"
@@ -93,6 +103,14 @@
       >
         send mail
       </ion-button>
+      <ion-button
+      v-if="load"
+      disabled
+       shape="round"
+       style="width: 100%; --background: black; margin-top: 30px"
+     >
+       Loading...
+     </ion-button>
       </div>
     </ion-content>
   </ion-page>
@@ -119,6 +137,7 @@ data(){
       username:'',
       password:''
     },
+    load:false,
     shwPass:false,
     err:false,
     fp:false,
@@ -136,6 +155,7 @@ validators: {
 },
 methods:{
   async SendMail(){
+    this.load=true;
       axios.post('https://ra22.deta.dev/forget-password',{
         username:this.form.username
       }).then((d)=>{
@@ -145,9 +165,11 @@ methods:{
           this.msg="";
           this.fp=false
         }, 3000);
+        this.load=false;
         // this.fp=fase
       }).catch(()=>{
         this.Err = "Not Found!"
+        this.load=false;
         setTimeout(() => {
           this.Err="";
           this.fp=false
@@ -157,12 +179,15 @@ methods:{
   async login(){
      const valid = await this.$validate();
                 if(valid){
+                  this.load=true;
                   this.form.password = md5(this.form.password.toString())
                   axios.post('https://ra22.deta.dev/user/login',this.form).then(d=>{
-                    console.log(d.data);
+                   
                     window.localStorage.setItem('a22user',JSON.stringify(d.data))
+                    this.load=false;
                     this.$router.replace('/home')
                   }).catch(()=>{
+                    this.load=false;
                       this.err="invalid Credentials"
                   })
                 }
