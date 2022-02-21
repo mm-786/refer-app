@@ -43,11 +43,21 @@ export default defineComponent({
 });
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Dancing+Script:wght@600&family=Shizuru&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kufam&display=swap');
+.text0{
+  font-family: 'Kufam', sans-serif;
+}
 .text{
   font-family: 'Shizuru', cursive;
 }
+.text1{
+  font-family: 'Dancing Script', cursive;
+}
+.text2{
+  font-family: 'Akaya Telivigala', cursive;
 
+}
   ion-input{
     color: black;
   }

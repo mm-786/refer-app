@@ -10,7 +10,7 @@
      <div style="justify-content: space-around; display: flex; margin-top: 15px;">
       <img src="../../public/assets/btxtlogo.svg" width="120" style=" float: right; margin-right: 15px;"/>
      </div>
-     <h1 class="text" style="color:black; text-transform: capitalize; margin-left: 25px;">{{fp?'FORGET PASSWORD':'LOGIN'}}</h1>
+     <h1 class="text2" style="color:black; text-transform: capitalize; margin-left: 25px;">{{fp?'forget password':'login'}}</h1>
       <div style="margin: 30px; " v-if="!fp">
         
         <h6 v-if="err" style="color:red; text-transform: capitalize; text-align: center;">{{err}}</h6>
@@ -40,7 +40,7 @@
           ></i>
         </ion-item>
 
-        <a @click="fp=true" style="color: black; font-weight: bold; margin-top: 5px; float: right;">Forget Password?</a>
+        <a @click="fp=true" class="text0" style="color: black; font-weight: bold; margin-top: 5px; float: right;">Forget Password?</a>
         <ion-button
           v-if="!load"
           shape="round"
@@ -58,7 +58,7 @@
        Loading...
      </ion-button>
 
-        <div style="text-align: center; margin: 25px">
+        <div class="text0" style="text-align: center; margin: 25px">
           <hr style="background-color: rgb(161, 152, 152); height: 1px" />
           <span
             style="
@@ -71,7 +71,7 @@
             >OR</span
           >
         </div>
-        <div style="text-align: center; margin: 25px">
+        <div class="text0" style="text-align: center; margin: 25px">
           <span
             >Don't have an account?
             <a

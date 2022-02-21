@@ -8,8 +8,8 @@
             <i class="fa fa-question-circle" aria-hidden="true"></i>
           </ion-button>
         </ion-buttons>
-        <ion-title style="--color:white; margin-top: 25px; font-size: large; letter-spacing: 2px; height: 60px;">
-          {{wish}}, <br><span class="text" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}
+        <ion-title class="text2" style="--color:white; margin-top: 25px; font-size: xx-large; letter-spacing: 2px; height: 60px;">
+          {{wish}}, <br><span class="text1" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}
           </span>
         </ion-title>
         <div slot="end">
@@ -45,9 +45,9 @@
         </ion-toolbar>
       </ion-header>
 
-      <div class="container">
+      <div class="container text0">
         <div slot="top">
-          <label>Your <span class="text">SHIB</span></label>
+          <label class="text2" style="font-size: 25px;">Your <strong >Shib</strong></label>
           <div class="inner-container-shade">
             <strong class="text" style="font-size: 45px;">{{userData.credit}}</strong>
           </div>
@@ -69,7 +69,7 @@
         </div>
         <hr style="background-color: gainsboro;">
         <div>
-          <label>Your Refers</label>
+          <label class="text2" >Your Refers</label>
 
           <div
             style="background-color: rgba(0, 0, 0,0.6); border-radius: 20px 5px 20px 5px; margin-top: 10px; padding: 0px 20px; justify-content: space-between; display: flex;">

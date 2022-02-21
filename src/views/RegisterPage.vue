@@ -16,8 +16,8 @@
         />
       </div>
       <h1
-        class="text"
-        style="color: black; text-transform: uppercase; margin-left: 25px"
+        class="text2"
+        style="color: black; margin-left: 25px"
       >
         Register
       </h1>
@@ -151,12 +151,12 @@
           <div class="err">{{ validation.firstError("form.refer_by") }}</div>
         </ion-item>
 
-        <ion-item lines="none">
-          <span style="margin-left: 5px">
+        <ion-item lines="none" class="text0">
+          <span style="margin-left: 5px; text-align: center; font-size: medium; ">
             By register you agree our
             <a
               style="color: black; font-weight: bold; text-decoration: none"
-              href="#"
+              @click="$router.push('/privacy-policy')"
             >
               Privacy and Term</a
             >
@@ -193,7 +193,7 @@
             >OR</span
           >
         </div>
-        <div style="text-align: center; margin: 25px">
+        <div class="text0" style="text-align: center; margin: 25px">
           <span
             >Already have account?
             <a

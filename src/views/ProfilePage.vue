@@ -7,7 +7,7 @@
                         <i class="fa fa-times" style="color: black; font-size: medium;" aria-hidden="true"></i>
                     </ion-button>
                 </ion-buttons>
-                <ion-title> Your Profile </ion-title>
+                <ion-title class="text2" > Your Profile </ion-title>
                 <div slot="end">
                     <img src="../../public/assets/black.svg" width="40"
                         style="float: right; margin-right: 15px; opacity: 0.5;" />
@@ -79,7 +79,7 @@
 
             </div>
 
-            <ion-card v-if="!edit" style="border-radius: 10px; box-shadow: none; background-color: rgba(220, 220, 220,0.3);">
+            <ion-card v-if="!edit" class="text0" style="border-radius: 10px; box-shadow: none; background-color: rgba(220, 220, 220,0.3);">
                 <ion-grid>
                     <ion-row>
                         <ion-col size="11">
@@ -143,7 +143,7 @@
             <div style="margin: 30px; margin-top: 40px">
 
                 <div style="text-align:center;  margin:30px; border: 1px solid gainsboro; padding: 20px; ">
-                    <h5>Your <span class="text">SHIB</span></h5>
+                    <h5 class="text0">Your <span>SHIB</span></h5>
                     <div class="inner-container-shade">
                         <strong class="text"
                             style="font-size: xx-large; margin-bottom: 10px;">{{userData.credit}}</strong>

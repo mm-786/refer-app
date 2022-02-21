@@ -11,7 +11,7 @@
             ></i>
           </ion-button>
         </ion-buttons>
-        <ion-title> Change Password </ion-title>
+        <ion-title class="text2"> Change Password </ion-title>
         <div slot="end">
                     <img src="../../public/assets/black.svg" width="40"
                       style="float: right; margin-right: 15px; opacity: 0.5;" />

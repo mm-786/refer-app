@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
+import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import ChangePasswordPage from '../views/ChangePasswordPage.vue'
 const routes = [
   {
@@ -24,6 +25,12 @@ const routes = [
     name: 'Login',
     component: LoginPage
   },
+  {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy
+  },
+  
   {
     path: '/profile',
     name: 'Profile',
