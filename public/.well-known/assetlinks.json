@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "ml.mundrawala.anticks",
+               "sha256_cert_fingerprints": ["2B:99:80:A8:42:61:AD:48:FA:CA:83:60:64:9F:F3:9B:5E:C4:65:46:8C:C8:43:4A:C9:8A:33:05:CE:A1:DB:12"] }
+}]
