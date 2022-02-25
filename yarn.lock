@@ -963,7 +963,7 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.4.1.tgz#d4accc41c843927853d27c7f638487bd52633486"
   integrity sha512-4qQGEdZTW8W01PTOzSScmx9NBDcsi1GRl32tyYnpQrjdH2f7hI9OX2MLbNkirtOwKNCDeinQfEqqn0hVCkgHag==
 
-"@capacitor/app@1.1.0":
+"@capacitor/app@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-1.1.0.tgz#33a993a1f78723dad1f75bd949d15ba87de8279f"
   integrity sha512-CjcMLThYfPBGBexb6Xy98MHA9olduS0OL0X8Ot9z9x5RN/Cx5K5OmlZkGMKOncR2R1h2n/whdO5tmDbjeqS6tw==
@@ -2074,6 +2074,11 @@
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-5.0.1.tgz#7d277989e896db88588b4a0875314fe6576bf243"
   integrity sha512-5J/n+Ht4r2eVuncwCXcZPHzYCz/2haktle4WcggWiKeg3jSQVUJbjviPBs6sOo3y/LG3CEfZMP9bPJjVDbexpQ==
 
+"@vue/cli-plugin-vuex@~4.5.13":
+  version "4.5.15"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.15.tgz#466c1f02777d02fef53a9bb49a36cc3a3bcfec4e"
+  integrity sha512-fqap+4HN+w+InDxlA3hZTOGE0tzBTgXhKLoDydhywqgmhQ1D9JA6Feh94ze6tG8DsWX58/ujYUqA8jAz17FJtg==
+
 "@vue/cli-service@~5.0.0-rc.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-5.0.1.tgz#72abd40acb75ca7a6efcb06b502d2cdb90f2c745"
@@ -2211,7 +2216,7 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/devtools-api@^6.0.0-beta.18":
+"@vue/devtools-api@^6.0.0-beta.11", "@vue/devtools-api@^6.0.0-beta.18":
   version "6.0.12"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.12.tgz#7b57cce215ae9f37a86984633b3aa3d595aa5b46"
   integrity sha512-iO/4FIezHKXhiDBdKySCvJVh8/mZPxHpiQrTy+PXVqJZgpTPTdHy4q8GXulaY+UKEagdkBb0onxNQZ0LNiqVhw==
@@ -9000,6 +9005,13 @@ vue@^3.2.21:
     "@vue/runtime-dom" "3.2.31"
     "@vue/server-renderer" "3.2.31"
     "@vue/shared" "3.2.31"
+
+vuex@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
+  integrity sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.11"
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

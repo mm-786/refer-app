@@ -7,9 +7,10 @@
 <script lang="js">
 import { IonApp, IonRouterOutlet,useBackButton, useIonRouter } from '@ionic/vue';
 import { Plugins } from '@capacitor/core';
+import { App } from '@capacitor/app';
 import { defineComponent } from 'vue';
 import axios from "axios";
-const { App } = Plugins;
+const { Apps } = Plugins;
 export default defineComponent({
   name: 'App',
   components: {
@@ -17,10 +18,14 @@ export default defineComponent({
     IonRouterOutlet
   },
   setup() {
+    App.addListener('appUrlOpen', function (data) {
+      console.log(data);
+    });
+
     const ionRouter = useIonRouter();
     useBackButton(-1, () => {
       if (!ionRouter.canGoBack()) {
-        App.exitApp();
+        Apps.exitApp();
       }
     });
   },
@@ -38,6 +43,9 @@ export default defineComponent({
     }
        axios.get('https://ra22.deta.dev/credit').then(d=>{
         window.localStorage.setItem('limit',d.data.w_limit)
+      })
+       axios.get('https://ra22.deta.dev/offer').then(async (d)=>{
+        await this.$store.commit('offer',d.data)
       })
   }
 });

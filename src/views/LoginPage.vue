@@ -179,7 +179,7 @@ methods:{
   async login(){
      const valid = await this.$validate();
                 if(valid){
-                  this.load=true;
+                  // this.load=true;
                   this.form.password = md5(this.form.password.toString())
                   axios.post('https://ra22.deta.dev/user/login',this.form).then(d=>{
                    

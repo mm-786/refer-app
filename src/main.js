@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Apps from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
@@ -19,15 +19,15 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
+import store from './store'
 
 
-
-
-const app = createApp(App)
+const app = createApp(Apps).use(store)
   .use(IonicVue)
   .use(router)
   .use(SimpleVueValidation)
-  
+
 router.isReady().then(() => {
+
   app.mount('#app');
 });

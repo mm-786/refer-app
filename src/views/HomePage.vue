@@ -19,12 +19,12 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 20px;">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 15px;">
       <ion-fab-button style="--background:black;">
         <img src="../../public/assets/white.svg" width="30" />
         <!-- <i class="fa fa-plus-circle" style="font-size: xx-large;" aria-hidden="true"></i> -->
       </ion-fab-button>
-      <ion-fab-list side="top">
+      <ion-fab-list side="start">
         <ion-fab-button style="--background:rgb(245, 154, 154);" @click="logout">
           <i class="fa fa-power-off" style="font-weight: bold; color: red;" aria-hidden="true"></i>
         </ion-fab-button>
@@ -45,30 +45,39 @@
         </ion-toolbar>
       </ion-header>
 
-      <div class="container text0">
-        <div slot="top">
+      <div class=" text0">
+        <div slot="top" class="container">
           <label class="text2" style="font-size: 25px;">Your <strong >Shib</strong></label>
-          <div class="inner-container-shade">
-            <strong class="text" style="font-size: 45px;">{{userData.credit}}</strong>
-          </div>
-        </div>
-        <hr style="background-color: gainsboro;">
-        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="8" style=" padding:25px 0px">
+                <strong class="text" style="font-size: 30px; ">{{userData.credit}}</strong>
+              </ion-col>
+              <ion-col size="2">
+                <button @click="claim()" v-if="userData.claim" class="text2" style="height: 100px;  font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgb(159, 150, 150); background-color: black; color: white;">
+                  Claim Now
+                </button>
+                <button v-if="!userData.claim" class="text2" style="height: 100px; margin-right: 10px; font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgba(159, 150, 150,0.5); background-color: rgba(0, 0, 0,0.5); color: white;">
+                  Claim Now
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+        </div>  
+       
+        
+        <div v-if="of_load" class="container">
           <!-- <label>Offers</label> -->
+         
           <ion-slides :options="slideOpts">
-            <ion-slide class="offer-container">
-              <h1>Sign Up and get credit :)</h1>
-            </ion-slide>
-            <ion-slide class="offer-container">
-              <h1>Refer your friend and get 500 credits:)</h1>
-            </ion-slide>
-            <ion-slide class="offer-container">
-              <h1>Earn more credit :)</h1>
+            <ion-slide style="background-color: rgba(220, 220, 220,0.6);" class="offer-container" v-for="offer in offers" :key="offer.key">
+             <div v-if="offer.content" style="content: fixed;" v-html="offer.content"></div>
             </ion-slide>
           </ion-slides>
         </div>
-        <hr style="background-color: gainsboro;">
-        <div>
+      
+        <div class="container">
           <label class="text2" >Your Refers</label>
 
           <div
@@ -113,7 +122,9 @@
     data() {
       return {
         userData: {},
+        of_load:false,
         wish: "",
+        offers:[],
         slideOpts: {
           autoplay: true
         }
@@ -124,6 +135,13 @@
         window.localStorage.clear();
         this.$router.replace('/login')
       },
+      claim(){
+        axios.post('https://ra22.deta.dev/claim/'+this.userData.key).then(d=>{
+          window.localStorage.setItem('a22user',JSON.stringify(d.data));
+          this.userData = d.data;
+        })
+      },
+
       copy() {
         navigator.clipboard.writeText(this.userData.key);
       },
@@ -154,6 +172,12 @@
         window.localStorage.setItem('limit',d.data.w_limit)
       })
 
+      axios.get('https://ra22.deta.dev/offer').then(async (d)=>{
+        this.offers = d.data
+        await this.$store.commit('offer',d.data)
+        this.of_load=true;
+      })
+
     }
   });
 </script>
@@ -166,8 +190,8 @@
     color: black;
     text-align: center;
     padding-top: 20px;
-    border-radius: 30px 30px 0px 0px;
-    margin: 0px 20px;
+    border-radius: 30px ;
+    margin: 10px 20px;
   }
 
   .container label {

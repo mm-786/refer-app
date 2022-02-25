@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package ml.mundrawala.anticks;
 
 import com.getcapacitor.BridgeActivity;
 
