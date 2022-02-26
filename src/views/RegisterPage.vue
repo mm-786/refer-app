@@ -244,7 +244,9 @@
       }
     },
     mounted() {
-      const date = new Date();
+      const url = window.location.href
+      this.form.refer_by = url.split('?')[1]
+      const date = new Date();1
       let day = (date.getDate() - 1).toString();
       let month = (date.getMonth() + 1).toString();
       const year = date.getFullYear()
