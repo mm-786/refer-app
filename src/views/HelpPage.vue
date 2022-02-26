@@ -22,7 +22,7 @@
                 </ion-toolbar>
             </ion-header>
           
-          <div class="text2">
+          <div class="text2" style="padding: 0px 10px;">
             <ol>
                 <li><b>Register</b> your self With someone <b>Refer code</b> (if any). With refer code get {{credit.r_sign_up}} shib and without refer code get {{credit.sign_up}} shib</li>
                 <li><b>Login</b> with your credentials</li>
