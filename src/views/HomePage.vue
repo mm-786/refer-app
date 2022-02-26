@@ -20,6 +20,7 @@
       </ion-toolbar>
     </ion-header>
 
+   
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 15px;">
       <ion-fab-button style="--background:black;">
         <img src="../../public/assets/white.svg" width="30" />
@@ -52,6 +53,7 @@
           <ion-grid>
             <ion-row>
               <ion-col size="8" style=" padding:25px 0px">
+                <a href="../../public/Anticks.apk">Download and install...</a>.
                 <strong class="text" style="font-size: 30px; ">{{userData.credit}}</strong>
               </ion-col>
               <ion-col size="2">
@@ -164,7 +166,7 @@
       async share() {
         await Share.share({
           title: 'Refer Anticks With Buddies',
-          text: 'Sign Up with my code ' + this.userData.key + ". And get more credit \n"+"https://app.anticks.tk/register?"+this.userData.key,
+          text: 'Sign Up with my code ' + this.userData.key + ". And get more credit \n"+"https://app.anticks.tk/register?"+this.userData.key+" \n and download app from this https://app.anticks.tk/download",
           dialogTitle: 'Share with buddies',
         });
       }

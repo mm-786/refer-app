@@ -6,13 +6,13 @@ import RegisterPage from '../views/RegisterPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import ChangePasswordPage from '../views/ChangePasswordPage.vue'
+
 import Help from '../views/HelpPage.vue'
+import { App } from '@capacitor/app';
+
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
+ 
   {
     path: '/home',
     name: 'Home',
@@ -67,6 +67,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+App.addListener('appUrlOpen',  async function (data) {
+  const code = await data.url.split('?')
+  if(code[1]!=undefined){
+    window.localStorage.clear();
+      router.replace('/register?'+code[1])
+  }
 })
 
 export default router
