@@ -6,9 +6,7 @@ import RegisterPage from '../views/RegisterPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import ChangePasswordPage from '../views/ChangePasswordPage.vue'
-
-
-
+import Help from '../views/HelpPage.vue'
 
 const routes = [
   {
@@ -24,6 +22,11 @@ const routes = [
     path: '/change-password',
     name: 'ChangePassword',
     component: ChangePasswordPage
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    component: Help
   },
   {
     path: '/login',

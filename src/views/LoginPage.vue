@@ -2,11 +2,14 @@
   <ion-page>
     
     <ion-content>
+      
       <ion-header collapse="condense">
         <ion-toolbar>
+          
           <ion-title size="large">{{ $route.params.id }}</ion-title>
         </ion-toolbar>
       </ion-header>
+      <i class="fa fa-question-circle" @click="$router.push('/help')" style="color:black; float:right; margin:5px" aria-hidden="true"></i>
      <div style="justify-content: space-around; display: flex; margin-top: 15px;">
       <img src="../../public/assets/btxtlogo.svg" width="120" style=" float: right; margin-right: 15px;"/>
      </div>

@@ -4,12 +4,13 @@
 
       <ion-toolbar style="height: 150px; --background: black;">
         <ion-buttons slot="end" style="position: absolute; top:5px; right: 5px;">
-          <ion-button style="--color: ghostwhite; font-size: large;">
+          <ion-button @click="$router.push('/help')" style="--color: ghostwhite; font-size: large;">
             <i class="fa fa-question-circle" aria-hidden="true"></i>
           </ion-button>
         </ion-buttons>
-        <ion-title class="text2" style="--color:white; margin-top: 25px; font-size: xx-large; letter-spacing: 2px; height: 60px;">
-          {{wish}}, <br><span class="text1" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}
+        <ion-title class="text2"
+          style="--color:white; margin-top: 25px; font-size: xx-large; letter-spacing: 2px; height: 60px;">
+          {{getWish()}}, <br><span class="text1" style="font-size: xx-large; text-transform: capitalize;">{{userData.name}}
           </span>
         </ion-title>
         <div slot="end">
@@ -47,38 +48,41 @@
 
       <div class=" text0">
         <div slot="top" class="container">
-          <label class="text2" style="font-size: 25px;">Your <strong >Shib</strong></label>
+          <label class="text2" style="font-size: 25px;">Your <strong>Shib</strong></label>
           <ion-grid>
             <ion-row>
               <ion-col size="8" style=" padding:25px 0px">
                 <strong class="text" style="font-size: 30px; ">{{userData.credit}}</strong>
               </ion-col>
               <ion-col size="2">
-                <button @click="claim()" v-if="userData.claim" class="text2" style="height: 100px;  font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgb(159, 150, 150); background-color: black; color: white;">
+                <button @click="claim()" v-if="userData.claim" class="text2"
+                  style="height: 100px;  font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgb(159, 150, 150); background-color: black; color: white;">
                   Claim Now
                 </button>
-                <button v-if="!userData.claim" class="text2" style="height: 100px; margin-right: 10px; font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgba(159, 150, 150,0.5); background-color: rgba(0, 0, 0,0.5); color: white;">
+                <button v-if="!userData.claim" class="text2"
+                  style="height: 100px; margin-right: 10px; font-size: x-large; width: 100px; border-radius: 50px; border: 10px solid rgba(159, 150, 150,0.5); background-color: rgba(0, 0, 0,0.5); color: white;">
                   Claim Now
                 </button>
               </ion-col>
             </ion-row>
           </ion-grid>
-          
-        </div>  
-       
-        
+
+        </div>
+
+
         <div v-if="of_load" class="container">
           <!-- <label>Offers</label> -->
-         
+
           <ion-slides :options="slideOpts">
-            <ion-slide style="background-color: rgba(220, 220, 220,0.6);" class="offer-container" v-for="offer in offers" :key="offer.key">
-             <div v-if="offer.content" style="content: fixed;" v-html="offer.content"></div>
+            <ion-slide style="background-color: rgba(220, 220, 220,0.6);" class="offer-container"
+              v-for="offer in offers" :key="offer.key">
+              <div v-if="offer.content" style="content: fixed;" v-html="offer.content"></div>
             </ion-slide>
           </ion-slides>
         </div>
-      
+
         <div class="container">
-          <label class="text2" >Your Refers</label>
+          <label class="text2">Your Refers</label>
 
           <div
             style="background-color: rgba(0, 0, 0,0.6); border-radius: 20px 5px 20px 5px; margin-top: 10px; padding: 0px 20px; justify-content: space-between; display: flex;">
@@ -91,7 +95,7 @@
 
           <div class="inner-container" style="max-height: 100px; overflow: scroll;">
             <ol>
-              <li v-for="i in userData.refer_to" :key="i">{{i}}</li>
+              <li v-for="i in userData.refer_to" style="text-transform: capitalize;" :key="i">{{i}}</li>
             </ol>
           </div>
         </div>
@@ -122,9 +126,9 @@
     data() {
       return {
         userData: {},
-        of_load:false,
+        of_load: false,
         wish: "",
-        offers:[],
+        offers: [],
         slideOpts: {
           autoplay: true
         }
@@ -135,20 +139,32 @@
         window.localStorage.clear();
         this.$router.replace('/login')
       },
-      claim(){
-        axios.post('https://ra22.deta.dev/claim/'+this.userData.key).then(d=>{
-          window.localStorage.setItem('a22user',JSON.stringify(d.data));
+      claim() {
+        axios.post('https://ra22.deta.dev/claim/' + this.userData.key).then(d => {
+          window.localStorage.setItem('a22user', JSON.stringify(d.data));
           this.userData = d.data;
         })
       },
-
+      getWish() {
+        const day = new Date();
+        const hr = day.getHours();
+        if (hr >= 0 && hr < 12) {
+          return "Good Morning!"
+        } else if (hr == 12) {
+          return "Good Noon!"
+        } else if (hr >= 12 && hr <= 15) {
+          return "Good Afternoon!"
+        } else {
+          return "Good Evening!"
+        }
+      },
       copy() {
         navigator.clipboard.writeText(this.userData.key);
       },
       async share() {
         await Share.share({
           title: 'Refer Anticks With Buddies',
-          text: 'Sign Up with my code '+ this.userData.key +". And get more credit",
+          text: 'Sign Up with my code ' + this.userData.key + ". And get more credit",
           url: 'https://google.com',
           dialogTitle: 'Share with buddies',
         });
@@ -168,14 +184,14 @@
       }
       this.userData = JSON.parse(window.localStorage.getItem('a22user'))
 
-      axios.get('https://ra22.deta.dev/credit').then(d=>{
-        window.localStorage.setItem('limit',d.data.w_limit)
+      axios.get('https://ra22.deta.dev/credit').then(d => {
+        window.localStorage.setItem('limit', d.data.w_limit)
       })
 
-      axios.get('https://ra22.deta.dev/offer').then(async (d)=>{
+      axios.get('https://ra22.deta.dev/offer').then(async (d) => {
         this.offers = d.data
-        await this.$store.commit('offer',d.data)
-        this.of_load=true;
+        await this.$store.commit('offer', d.data)
+        this.of_load = true;
       })
 
     }
@@ -190,7 +206,7 @@
     color: black;
     text-align: center;
     padding-top: 20px;
-    border-radius: 30px ;
+    border-radius: 30px;
     margin: 10px 20px;
   }
 
