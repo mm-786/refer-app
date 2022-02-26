@@ -165,7 +165,7 @@
       async share() {
         await Share.share({
           title: 'Refer Anticks With Buddies',
-          text: 'Sign Up with my code ' + this.userData.key + ". And get more credit \n"+"https://app.anticks.tk/register?"+this.userData.key+" \n and download app from this https://app.anticks.tk/download",
+          text: 'Sign Up with my code ' + this.userData.key + ". And get more credit \n"+"https://app.anticks.tk/register?"+this.userData.key+" \n and download app from this https://download.anticks.tk",
           dialogTitle: 'Share with buddies',
         });
       }
