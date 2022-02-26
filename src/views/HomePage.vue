@@ -53,7 +53,6 @@
           <ion-grid>
             <ion-row>
               <ion-col size="8" style=" padding:25px 0px">
-                <a href="../../public/Anticks.apk">Download and install...</a>.
                 <strong class="text" style="font-size: 30px; ">{{userData.credit}}</strong>
               </ion-col>
               <ion-col size="2">
