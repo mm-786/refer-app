@@ -36,12 +36,8 @@ export default defineComponent({
         this.link=true
       
         if(code[1]!=undefined){
-            alert('pps')
           window.localStorage.clear();
             this.$router.replace('/register?'+code[1])
-        }
-        if(this.link){
-          alert('yess')
         }
     });
 

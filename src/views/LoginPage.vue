@@ -116,6 +116,8 @@
      </ion-button>
       </div>
     </ion-content>
+             <div style="font-size: x-small; padding-top: 4px; background-color: gainsboro; font-weight: bold; color: gray; text-align: center;">This app is developed by <a style="text-decoration: none; color: black;" href="https://wa.me/+919737728472">Murtaza Mundrawala</a></div>
+
   </ion-page>
 </template>
 
