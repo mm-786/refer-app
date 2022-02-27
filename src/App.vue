@@ -43,8 +43,14 @@ export default defineComponent({
 
   if(!this.link){
     const user = JSON.parse(window.localStorage.getItem('a22user'))
+    
     if(user!=null){
+      axios.get('https://ra22.deta.dev/claim-now/'+user.key).then(dd=>{
+          // console.log(dd.data.msg);
+                      this.$store.commit('claim',dd.data.msg)
+                   })
       axios.get('https://ra22.deta.dev/user/'+user.key).then(d=>{
+        // console.log(d.data);
         window.localStorage.setItem('a22user',JSON.stringify(d.data))
         if(d.data.password != user.password){
           window.localStorage.clear();
