@@ -59,9 +59,9 @@ export default defineComponent({
       })
       this.$router.replace('/home')
     }
-    else{
-      this.$router.replace('/login')
-    }
+    // else{
+    //   this.$router.replace('/login')
+    // }
   }
        axios.get('https://ra22.deta.dev/credit').then(d=>{
         window.localStorage.setItem('limit',d.data.w_limit)
